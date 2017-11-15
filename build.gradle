@@ -18,6 +18,10 @@ dependencies {
     compile 'de.schlichtherle.truezip:truezip-file:7.7.10'
 }
 
+project.ext {
+    jythonInterpreter = "jython"
+}
+
 task runTest(type: Exec, dependsOn: ['testClasses']) {
     environment = ["itest_conf_file": "$projectDir/itest-conf.json", "PATH": System.getenv("PATH"), "HOME": System.getenv("HOME")]
     commandLine jythonInterpreter, "-m", "unittest", "-v", System.getProperty("testName")
