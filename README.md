@@ -1,5 +1,8 @@
 # XLD AWS Elastic Beanstalk Plugin
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/xebialabs-community/xld-elasticbeanstalk-plugin.svg?branch=master)](https://travis-ci.org/xebialabs-community/xld-elasticbeanstalk-plugin)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a633f54423d74ba3918eca421dad7d3c)](https://www.codacy.com/app/ravan/xld-elasticbeanstalk-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=xebialabs-community/xld-elasticbeanstalk-plugin&amp;utm_campaign=Badge_Grade)
 
 ## Overview
 This plugin enables AWS Elastic Beanstalk deployments from XL Deploy.
