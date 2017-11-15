@@ -14,7 +14,8 @@ This plugin enables AWS Elastic Beanstalk deployments from XL Deploy.
 
 ## Installation
 
-Copy the plugin JAR file into the `SERVER_HOME/plugins` directory of XL Deploy.
+The plugin JAR file can be downloaded from [releases](https://github.com/xebialabs-community/xld-elasticbeanstalk-plugin/releases).
+Copy the downloaded JAR into the `SERVER_HOME/plugins` directory of XL Deploy.
 
 # Usage
 
