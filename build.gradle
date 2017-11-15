@@ -9,7 +9,7 @@ repositories {
 defaultTasks 'build'
 
 apply plugin: 'java'
-version='7.0.0-SNAPSHOT'
+version='7.0.0-rc1'
 
 sourceSets.main.resources.srcDirs = ["src/main/jython", "src/main/resources"]
 sourceSets.test.resources.srcDirs = ["src/test/jython", "src/test/resources"]
