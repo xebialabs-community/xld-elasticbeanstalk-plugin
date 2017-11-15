@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+    Copyright 2017 XEBIALABS
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+<synthetic xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <type type="eb.ApplicationEnvironment" extends="udm.BaseContainer">
+        <property name="account" kind="ci" referenced-type="aws.Cloud" as-containment="true" />
+        <property name="region" description="AWS Region. See http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html"/>
+        <property name="application_name" label="Application Name" description="An Elastic Beanstalk application is a logical collection of Elastic Beanstalk components, including environments, versions, and environment configurations. In Elastic Beanstalk an application is conceptually similar to a folder."/>
+        <property name="environment_name" label="Environment Name" description="An environment is a version that is deployed onto AWS resources. Each environment runs only a single application version at a time."/>
+        <property name="solution_stack_name" label="Solution Stack Name" description="The name of the SolutionStack deployed with this environment"/>
+        <property name="s3_bucket_name" label="S3 Bucket Name" description="The name of the S3 bucket where the applications are uploaded"/>
+
+
+        <!-- Environment Settings -->
+        <property name="description" required="false" description="Describes this environment." category="Environment Details" />
+        <property name="cname_prefix" label="CNAME Prefix" required="false" category="Environment Details" description="If specified, the environment attempts to use this value as the prefix for the CNAME. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name." />
+        <property name="tier_name" label="Tier Name" required="false" category="Environment Details" description="The name of this environment tier" />
+        <property name="tier_type" label="Tier Type" required="false" category="Environment Details" description="The type of this environment tier" />
+        <property name="tier_version" label="Tier Version" required="false" category="Environment Details" description="The version of this environment tier" />
+        <property name="env_tags" label="Tags" kind="map_string_string" required="false" category="Environment Details" description="This specifies the tags applied to resources in the environment." />
+
+        <!-- Option Settings -->
+        <property name="iamInstanceProfile" default="aws-elasticbeanstalk-ec2-role" category="Options"/>
+        <property name="serviceRole" default="aws-elasticbeanstalk-service-role" category="Options"/>
+        <property name="instanceType" required="false" category="Options" />
+        <property name="rollingUpdateType" required="false" category="Options" />
+        <property name="rollingUpdateEnabled" required="false" category="Options" />
+        <property name="batchSize" required="false" category="Options" />
+        <property name="batchSizeType" required="false" category="Options" />
+        <property name="systemType" required="false" category="Options" />
+        <property name="crossZone" required="false" category="Options" />
+        <property name="connectionDrainingEnabled" required="false" category="Options" />
+
+        <!-- VPC Settings -->
+        <property name="vpcId" required="false" category="VPC Settings" description="The ID for your VPC."/>
+        <property name="subnets" required="false" category="VPC Settings" description="The IDs of the Auto Scaling group subnet or subnets. If you have multiple subnets, specify the value as a single comma-delimited string of subnet IDs (for example, 'subnet-11111111,subnet-22222222')."/>
+        <property name="elbSubnets" required="false" category="VPC Settings" description="The IDs of the subnet or subnets for the elastic load balancer. If you have multiple subnets, specify the value as a single comma-delimited string of subnet IDs (for example, 'subnet-11111111,subnet-22222222')."/>
+        <property name="elbSchema" required="false" category="VPC Settings" description="Specify 'internal' if you want to create an internal load balancer in your VPC so that your Elastic Beanstalk application cannot be accessed from outside your VPC."/>
+        <property name="dbSubnets" required="false" category="VPC Settings" description="Contains the IDs of the database subnets. This is only used if you want to add an Amazon RDS DB Instance as part of your application. If you have multiple subnets, specify the value as a single comma-delimited string of subnet IDs (for example, 'subnet-11111111,subnet-22222222')."/>
+        <property name="associatePublicIpAddress" required="false" category="VPC Settings" description="Specifies whether to launch instances with public IP addresses in your VPC. Instances with public IP addresses do not require a NAT device to communicate with the Internet. You must set the value to true if you want to include your load balancer and instances in a single public subnet. Valid values 'true' or 'false'."/>
+
+
+        <!-- control tasks -->
+        <method name="createApplication" label="Create Application" delegate="jythonScript" script="eb_rules/create_application.py"/>
+        <method name="deleteApplication" label="Delete Application" delegate="jythonScript" script="eb_rules/delete_application.py"/>
+        <method name="deleteEnvironment" label="Delete Environment" delegate="jythonScript" script="eb_rules/delete_environment.py"/>
+        <method name="listSolutionStacks" label="List Solution Stacks" delegate="jythonScript" script="eb_rules/list_solution_stacks.py"/>
+
+    </type>
+    
+    <type type="eb.ApplicationBundleModule" extends="udm.BaseDeployedArtifact" container-type="eb.ApplicationEnvironment" deployable-type="eb.ApplicationBundle">
+        <generate-deployable type="eb.ApplicationBundle" extends="udm.BaseDeployableArchiveArtifact" />
+        <property name="bundle_version" description="Logical version for the application bundle"/>
+        <property name="env_vars" label="Environment Variable" kind="map_string_string" required="false"/>
+
+    </type>
+</synthetic>
+
