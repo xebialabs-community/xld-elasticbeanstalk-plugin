@@ -18,7 +18,7 @@ class CheckConnectionTest(unittest.TestCase):
 
     def test_connection(self):
         client = EBClient.new_instance(ApplicationEnvironmentCi())
-        eb_client = client.get_eb_client()
+        eb_client = client.eb_client()
         platform_versions = eb_client.list_platform_versions()
         self.assertGreaterEqual(len(platform_versions), 1)
 
