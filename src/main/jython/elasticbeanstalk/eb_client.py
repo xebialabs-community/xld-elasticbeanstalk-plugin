@@ -148,12 +148,13 @@ class EBClient(object):
                 add_option("aws:elasticbeanstalk:application:environment", k, v)
         return options
 
-    def prepare_env_details(self, env_vars, is_update=False):
-        def not_empty(value):
-            return value is not None and len(value.strip()) > 0
+    @staticmethod
+    def not_empty(value):
+        return value is not None and len(value.strip()) > 0
 
+    def prepare_env_details(self, env_vars, is_update=False):
         def add_detail(name, value, target):
-            if not_empty(value):
+            if self.not_empty(value):
                 target[name] = value
 
         o = self.eb_app_env
@@ -165,7 +166,7 @@ class EBClient(object):
         add_detail("SolutionStackName", o.solution_stack_name, details)
         add_detail("CNAMEPrefix", o.cname_prefix, details)
 
-        if not_empty(o.tier_name) or not_empty(o.tier_type) or not_empty(o.tier_version):
+        if self.not_empty(o.tier_name) or self.not_empty(o.tier_type) or self.not_empty(o.tier_version):
             tier = {}
             add_detail("Name", o.tier_name, tier)
             add_detail("Type", o.tier_type, tier)

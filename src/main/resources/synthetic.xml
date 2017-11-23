@@ -57,7 +57,7 @@
     
     <type type="eb.ApplicationBundleModule" extends="udm.BaseDeployedArtifact" container-type="eb.ApplicationEnvironment" deployable-type="eb.ApplicationBundle">
         <generate-deployable type="eb.ApplicationBundle" extends="udm.BaseDeployableArchiveArtifact" />
-        <property name="bundle_version" description="Logical version for the application bundle"/>
+        <property name="bundle_version" required="false" description="Logical version for the application bundle. Defaults to application version if empty."/>
         <property name="env_vars" label="Environment Variable" kind="map_string_string" required="false"/>
 
     </type>

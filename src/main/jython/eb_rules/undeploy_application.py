@@ -16,7 +16,9 @@ def process(deployment_vars):
     deployed = deployment_vars['previousDeployed']
     container = deployed.container
     client = EBClient.new_instance(container)
-    version_label = client.version_label(deployed.name, deployed.bundle_version)
+    bv = deployed.bundle_version
+    bundle_version = bv if client.not_empty(bv) else deployment_vars["appVersion"]
+    version_label = client.version_label(deployed.name, bundle_version)
     print "Undeploying version '%s' from environment '%s'" % (version_label, container.environment_name)
     if client.delete_env():
         print "Application and environment destroyed."

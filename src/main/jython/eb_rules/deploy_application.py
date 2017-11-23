@@ -19,14 +19,16 @@ def process(deployment_vars):
     print "Ensure ElasticBeanstalk application '%s' present." % container.application_name
     if client.create_application():
         print "ElasticBeanstalk application created successfully."
-    target_name = client.create_target_file_name(deployed.name, deployed.bundle_version)
+    bv = deployed.bundle_version
+    bundle_version = bv if client.not_empty(bv) else deployment_vars["appVersion"]
+    target_name = client.create_target_file_name(deployed.name, bundle_version)
     print "Upload artifact '%s' to bucket '%s'" % (target_name, container.s3_bucket_name)
-    uploaded = client.upload_artifact(deployed.name, deployed.bundle_version, deployed.file.path)
+    uploaded = client.upload_artifact(deployed.name, bundle_version, deployed.file.path)
     if not uploaded:
         print "Artifact already exists in bucket. Will not upload again."
-    version_label = client.version_label(deployed.name, deployed.bundle_version)
+    version_label = client.version_label(deployed.name, bundle_version)
     print "Ensure ElasticBeanstalk version '%s' present." % version_label
-    created, version_label = client.create_application_version(deployed.name, deployed.bundle_version)
+    created, version_label = client.create_application_version(deployed.name, bundle_version)
     if created:
         print "ElasticBeanstalk version created successfully"
     print "Deploying version '%s' to environment '%s'" % (version_label, container.environment_name)

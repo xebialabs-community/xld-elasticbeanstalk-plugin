@@ -24,7 +24,7 @@ class EBClientTest(unittest.TestCase):
         deployed = ApplicationBundleCi()
         self.client = EBClient.new_instance(app_env_ci)
         self.task_vars = {"thisCi": app_env_ci}
-        self.deployment_vars = {"deployed": deployed, "previousDeployed": deployed}
+        self.deployment_vars = {"deployed": deployed, "previousDeployed": deployed, "appVersion": "1.0"}
 
     def tearDown(self):
         self.client.delete_application()

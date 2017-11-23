@@ -24,6 +24,9 @@
             <jython>
                 <description expression="true">"Deploy bundle '%s' to ElasticBeanstalk application '%s' environment '%s'." % (deployed.name, deployed.container.application_name, deployed.container.environment_name)</description>
                 <script>eb_rules/deploy_application.py</script>
+                <jython-context>
+                    <appVersion expression="true">deployedApplication.version.name</appVersion>
+                </jython-context>
             </jython>
             <checkpoint/>
         </steps>
@@ -38,6 +41,9 @@
             <jython>
                 <description expression="true">"Undeploy bundle '%s' from ElasticBeanstalk application '%s' environment '%s'." % (previousDeployed.name, previousDeployed.container.application_name, previousDeployed.container.environment_name)</description>
                 <script>eb_rules/undeploy_application.py</script>
+                <jython-context>
+                    <appVersion expression="true">previousDeployedApplication.version.name</appVersion>
+                </jython-context>
             </jython>
             <checkpoint/>
         </steps>
