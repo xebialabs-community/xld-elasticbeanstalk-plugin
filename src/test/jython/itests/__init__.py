@@ -98,7 +98,7 @@ class ApplicationEnvironmentCi(Ci):
         self.vpcId = None
         self.subnets = None
         self.elbSubnets = None
-        self.elbSchema = None
+        self.elbScheme = None
         self.dbSubnets = None
         self.associatePublicIpAddress = None
 
