@@ -8,3 +8,7 @@ out
 gradle.properties
 itest-conf.json
 xl-deploy-*-server/
+.classpath
+.project
+.settings/
+bin/
