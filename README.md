@@ -86,6 +86,8 @@ You can also run and debug tests from Intellij using a __python test__ configura
 
 ![IntellijTest](images/intellij.png)
 	
+# References
 
+1. https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_Operations.html
 ---
 
