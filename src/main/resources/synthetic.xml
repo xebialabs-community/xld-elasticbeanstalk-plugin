@@ -59,12 +59,16 @@
         <method name="listSolutionStacks" label="List Solution Stacks" delegate="jythonScript" script="eb_rules/list_solution_stacks.py"/>
 
     </type>
-    
+
     <type type="eb.ApplicationBundleModule" extends="udm.BaseDeployedArtifact" container-type="eb.ApplicationEnvironment" deployable-type="eb.ApplicationBundle">
         <generate-deployable type="eb.ApplicationBundle" extends="udm.BaseDeployableArchiveArtifact" />
         <property name="bundle_version" required="false" description="Logical version for the application bundle. Defaults to application version if empty."/>
         <property name="env_vars" label="Environment Variable" kind="map_string_string" required="false"/>
-
     </type>
-</synthetic>
 
+    <type-modification type="eb.ApplicationEnvironment">
+        <property name="container" kind="ci" referenced-type="aws.Cloud" />
+        <property name="s3BucketCi" kind="ci" referenced-type="aws.s3.Bucket" />
+    </type-modification>
+
+</synthetic>

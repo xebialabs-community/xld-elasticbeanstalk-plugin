@@ -14,6 +14,10 @@ from elasticbeanstalk.array_utils import ArrayUtil as arr
 from boto3.session import Session
 import time
 
+# Beginning of new code for assume-role
+from commons.aws_helper import AWSHelper
+# End of new code for assume-role
+
 
 class EBClient(object):
     def __init__(self, access_key, access_secret, eb_app_env):
@@ -21,8 +25,14 @@ class EBClient(object):
         self.session = Session(aws_access_key_id=access_key,
                                aws_secret_access_key=access_secret,
                                botocore_session=create_session())
-        self.eb_client = self.session.client('elasticbeanstalk', region_name=eb_app_env.region)
-        self.s3_client = self.session.client('s3', region_name=eb_app_env.region)
+#        self.eb_client = self.session.client('elasticbeanstalk', region_name=eb_app_env.region)
+#        self.s3_client = self.session.client('s3', region_name=eb_app_env.region)
+# Beginning of new code for assume-role
+        awsHelperEb = AWSHelper(eb_app_env)
+        self.eb_client = awsHelperEb.get_aws_client(resource_name='elasticbeanstalk', region=eb_app_env.region)
+        awsHelperS3 = AWSHelper(eb_app_env.s3BucketCi)
+        self.s3_client = awsHelperS3.get_aws_client(resource_name='s3', region=eb_app_env.s3BucketCi.region)
+# End of new code for assume-role
 
     @staticmethod
     def new_instance(eb_app_env_ci):
@@ -301,9 +311,3 @@ class EBClient(object):
         if wait:
             self.wait_for_env_ready_status(env_details['EnvironmentId'], sleep_interval=sleep_interval)
         return env_details
-
-
-
-
-
-
